@@ -1,43 +1,44 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-node_modules
-.next
-.env
-# dependencies
+ # Monorepo root .gitignore
+# Each sub-project also has its own .gitignore for project-specific rules.
 
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Node modules across all sub-projects
+**/node_modules/
 
-# testing
-/coverage
+# Next.js build output (portal)
+portal/.next/
+portal/out/
+portal/.vercel/
+portal/tsconfig.tsbuildinfo
 
-# next.js
-/.next/
-/out/
+# Vite/React build output (dashboard)
+dashboard/dist/
+dashboard/.vercel/
 
-# production
-/build
+# Backend build output
+backend/dist/
 
-# misc
-.DS_Store
+# Environment files — never commit secrets
+**/.env
+**/.env.local
+**/.env.*.local
+**/.env.production
+
+# macOS system files
+**/.DS_Store
 *.pem
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# Logs
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/.pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# Editor directories
+.vscode/
+.idea/
 
-# vercel
+# TypeScript build info
+**/*.tsbuildinfo
+
+# Vercel
 .vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
