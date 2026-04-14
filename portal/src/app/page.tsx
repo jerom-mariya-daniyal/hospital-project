@@ -15,13 +15,19 @@ import {
 import PortfolioGrid from "./components/PortfolioGrid";
 import Link from "next/link";
 
+// Always render at request-time — never statically at build
+export const dynamic = "force-dynamic";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://hospital-project-4.onrender.com";
+
 async function getActivities() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities`, { cache: "no-store" });
+    const res = await fetch(`${API_URL}/api/activities`, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to fetch");
     return res.json();
   } catch (error) {
-    console.error(error);
+    console.error("[Portal] getActivities error:", error);
     return [];
   }
 }

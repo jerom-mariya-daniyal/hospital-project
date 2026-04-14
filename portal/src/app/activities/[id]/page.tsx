@@ -17,6 +17,12 @@ import {
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+// Always render at request-time — never statically at build
+export const dynamic = "force-dynamic";
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://hospital-project-4.onrender.com";
+
 const TAG_META: Record<string, { icon: React.ElementType; color: string; bg: string; border: string }> = {
   Vaccination: { icon: Syringe,       color: "text-blue-700",    bg: "bg-blue-50",     border: "border-blue-200" },
   Emergency:   { icon: AlertTriangle, color: "text-red-700",     bg: "bg-red-50",      border: "border-red-200" },
@@ -28,7 +34,7 @@ const TAG_META: Record<string, { icon: React.ElementType; color: string; bg: str
 
 async function getActivity(id: string) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities/${id}`, { cache: "no-store" });
+    const res = await fetch(`${API_URL}/api/activities/${id}`, { cache: "no-store" });
     if (!res.ok) return null;
     return res.json();
   } catch {

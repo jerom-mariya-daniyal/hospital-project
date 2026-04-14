@@ -40,6 +40,9 @@ interface Activity {
   createdAt: string;
 }
 
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://hospital-project-4.onrender.com";
+
 export default function PortfolioGrid() {
   const [activeTag, setActiveTag] = useState<Tag>("All");
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -50,8 +53,8 @@ export default function PortfolioGrid() {
     try {
       const url =
         tag === "All"
-          ? `${process.env.NEXT_PUBLIC_API_URL}/api/activities`
-          : `${process.env.NEXT_PUBLIC_API_URL}/api/activities?tag=${tag}`;
+          ? `${API_URL}/api/activities`
+          : `${API_URL}/api/activities?tag=${tag}`;
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error();
       const data = await res.json();
