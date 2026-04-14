@@ -48,7 +48,7 @@ export default function AdminDashboard() {
   const fetchPendingActivities = async () => {
     try {
       const token = localStorage.getItem("token");
-      const { data } = await axios.get("http://localhost:5001/api/activities/pending", {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/activities/pending`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setActivities(data);
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
     setPublishingId(id);
     try {
       const token = localStorage.getItem("token");
-      await axios.put(`http://localhost:5001/api/activities/${id}/publish`, {}, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/activities/${id}/publish`, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const updated = activities.filter((a) => a._id !== id);

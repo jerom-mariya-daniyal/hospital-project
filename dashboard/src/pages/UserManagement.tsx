@@ -33,7 +33,7 @@ export default function UserManagement() {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5001/api/auth/users", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(res.data);
@@ -51,7 +51,7 @@ export default function UserManagement() {
     setCreating(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5001/api/auth/users",
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/users`,
         { name, email, password, role },
         { headers: { Authorization: `Bearer ${token}` } }
       );

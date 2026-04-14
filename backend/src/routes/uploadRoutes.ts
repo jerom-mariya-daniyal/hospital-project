@@ -1,7 +1,7 @@
 import express from "express";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
-import { protect } from "../middleware/authMiddleware";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 const storage = multer.memoryStorage();
@@ -10,15 +10,13 @@ const upload = multer({ storage });
 router.post("/", protect, upload.single("image"), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ message: "No file uploaded" });
+      res.status(400).json({ message: "No file uploaded" });
+      return;
     }
 
-    // Since we don't have cloudinary config yet, we need to initialize it in server.ts
-    // with process.env variables
-    
     const b64 = Buffer.from(req.file.buffer).toString("base64");
-    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-    
+    const dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+
     const result = await cloudinary.uploader.upload(dataURI, {
       resource_type: "auto",
       folder: "vet-hub",

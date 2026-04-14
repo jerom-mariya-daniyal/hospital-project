@@ -27,7 +27,7 @@ export default function AnalyticsDashboard() {
     const fetchAnalytics = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5001/api/analytics", {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/analytics`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setData(res.data);

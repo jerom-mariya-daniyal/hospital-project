@@ -15,7 +15,7 @@ export default function Login() {
     setError("");
     setLoading(true);
     try {
-      const { data } = await axios.post("http://localhost:5001/api/auth/login", { email, password });
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, { email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
       window.dispatchEvent(new Event("storage"));
@@ -127,7 +127,7 @@ export default function Login() {
           <div className="mt-8 pt-6 border-t border-slate-100 text-center">
             <p className="text-slate-500 text-sm">
               Are you an audience member?{" "}
-              <a href="http://localhost:3000" className="text-blue-600 font-bold hover:underline">
+              <a href={import.meta.env.VITE_PORTAL_URL} className="text-blue-600 font-bold hover:underline">
                 Visit Public Portal
               </a>
             </p>

@@ -28,7 +28,7 @@ const TAG_META: Record<string, { icon: React.ElementType; color: string; bg: str
 
 async function getActivity(id: string) {
   try {
-    const res = await fetch(`http://localhost:5001/api/activities/${id}`, { cache: "no-store" });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities/${id}`, { cache: "no-store" });
     if (!res.ok) return null;
     return res.json();
   } catch {

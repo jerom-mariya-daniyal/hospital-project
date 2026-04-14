@@ -261,7 +261,7 @@ export default function CircularsPage({ role }: { role: string | null }) {
 
   const fetchCirculars = useCallback(async () => {
     try {
-      const { data } = await axios.get("http://localhost:5001/api/circulars", {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/circulars`, {
         headers: { Authorization: `Bearer ${token()}` },
       });
       setCirculars(data);
@@ -280,10 +280,10 @@ export default function CircularsPage({ role }: { role: string | null }) {
 
   const openCircular = async (c: Circular) => {
     try {
-      await axios.put(`http://localhost:5001/api/circulars/${c._id}/read`, {}, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/circulars/${c._id}/read`, {}, {
         headers: { Authorization: `Bearer ${token()}` },
       });
-      const { data } = await axios.get(`http://localhost:5001/api/circulars/${c._id}`, {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/circulars/${c._id}`, {
         headers: { Authorization: `Bearer ${token()}` },
       });
       setSelected(data);
@@ -299,7 +299,7 @@ export default function CircularsPage({ role }: { role: string | null }) {
     setSendingFollowUp(true);
     try {
       const { data } = await axios.post(
-        `http://localhost:5001/api/circulars/${selected._id}/followup`,
+        `${import.meta.env.VITE_API_URL}/api/circulars/${selected._id}/followup`,
         { message: followUpText },
         { headers: { Authorization: `Bearer ${token()}` } }
       );
@@ -314,7 +314,7 @@ export default function CircularsPage({ role }: { role: string | null }) {
     setCreateError("");
     setCreating(true);
     try {
-      const { data } = await axios.post("http://localhost:5001/api/circulars", form, {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/circulars`, form, {
         headers: { Authorization: `Bearer ${token()}` },
       });
       setCirculars(prev => [data, ...prev]);

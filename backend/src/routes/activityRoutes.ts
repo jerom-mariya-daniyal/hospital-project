@@ -1,11 +1,11 @@
 import express from "express";
-import { protect, admin } from "../middleware/authMiddleware";
-import Activity from "../models/Activity";
-import User from "../models/User";
+import { protect, admin } from "../middleware/authMiddleware.js";
+import Activity from "../models/Activity.js";
+import User from "../models/User.js";
 import {
   sendNewReportNotification,
   sendReportPublishedNotification,
-} from "../services/mailer";
+} from "../services/mailer.js";
 
 const router = express.Router();
 
@@ -52,7 +52,8 @@ router.get("/:id", async (req, res) => {
   try {
     const activity = await Activity.findById(req.params.id).populate("author", "name");
     if (!activity) {
-      return res.status(404).json({ message: "Activity not found" });
+      res.status(404).json({ message: "Activity not found" });
+      return;
     }
     res.json(activity);
   } catch (error) {
@@ -79,10 +80,12 @@ router.post("/", protect, async (req, res) => {
 
     const createdActivity = await activity.save();
 
-    // ── Fire-and-forget: notify all admins of new submission ──
+    // Fire-and-forget: notify all admins of new submission
     (async () => {
       try {
-        const admins = await User.find({ role: "ADMIN" }).select("name email emailNotifications").lean();
+        const admins = await User.find({ role: "ADMIN" })
+          .select("name email emailNotifications")
+          .lean();
         await sendNewReportNotification(
           { title, tag: tag || "General", _id: createdActivity._id.toString() },
           currentUser.name || "Staff Member",
@@ -104,16 +107,20 @@ router.post("/", protect, async (req, res) => {
 // @access  Private/Admin
 router.put("/:id/publish", protect, admin, async (req, res) => {
   try {
-    const activity = await Activity.findById(req.params.id).populate("author", "name email emailNotifications");
+    const activity = await Activity.findById(req.params.id).populate(
+      "author",
+      "name email emailNotifications"
+    );
 
     if (!activity) {
-      return res.status(404).json({ message: "Activity not found" });
+      res.status(404).json({ message: "Activity not found" });
+      return;
     }
 
     activity.status = "PUBLISHED";
     const updatedActivity = await activity.save();
 
-    // ── Fire-and-forget: notify report author it's live ──
+    // Fire-and-forget: notify report author it's live
     (async () => {
       try {
         const author = activity.author as any;

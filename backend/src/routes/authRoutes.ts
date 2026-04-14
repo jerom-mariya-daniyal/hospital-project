@@ -1,8 +1,8 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/User";
-import { protect, admin } from "../middleware/authMiddleware";
+import User from "../models/User.js";
+import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -71,7 +71,8 @@ router.post("/users", protect, admin, async (req, res) => {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      return res.status(400).json({ message: "User already exists" });
+      res.status(400).json({ message: "User already exists" });
+      return;
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -102,12 +103,15 @@ router.put("/me/notifications", protect, async (req, res) => {
   try {
     const userId = (req as any).user._id;
     const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
 
-    // Toggle if no body provided, or use explicit value from body
-    const newValue = req.body.emailNotifications !== undefined
-      ? Boolean(req.body.emailNotifications)
-      : !user.emailNotifications;
+    const newValue =
+      req.body.emailNotifications !== undefined
+        ? Boolean(req.body.emailNotifications)
+        : !user.emailNotifications;
 
     user.emailNotifications = newValue;
     await user.save();
@@ -124,7 +128,10 @@ router.put("/me/notifications", protect, async (req, res) => {
 router.get("/me", protect, async (req, res) => {
   try {
     const user = await User.findById((req as any).user._id).select("-password");
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
     res.json(user);
   } catch (error) {
     res.status(500).json({ message: "Server Error" });

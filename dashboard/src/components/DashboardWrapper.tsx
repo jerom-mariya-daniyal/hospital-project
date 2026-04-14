@@ -31,7 +31,7 @@ export default function DashboardWrapper({ role }: { role: string | null }) {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get("http://localhost:5001/api/auth/me", {
+        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/me`, {
           headers: { Authorization: `Bearer ${token()}` },
         });
         setEmailNotifications(data.emailNotifications ?? true);
@@ -48,7 +48,7 @@ export default function DashboardWrapper({ role }: { role: string | null }) {
     setTogglingNotif(true);
     try {
       const { data } = await axios.put(
-        "http://localhost:5001/api/auth/me/notifications",
+        `${import.meta.env.VITE_API_URL}/api/auth/me/notifications`,
         {},
         { headers: { Authorization: `Bearer ${token()}` } }
       );

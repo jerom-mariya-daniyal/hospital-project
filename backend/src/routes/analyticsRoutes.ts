@@ -1,7 +1,7 @@
 import express from "express";
-import { protect, admin } from "../middleware/authMiddleware";
-import Activity from "../models/Activity";
-import User from "../models/User";
+import { protect, admin } from "../middleware/authMiddleware.js";
+import Activity from "../models/Activity.js";
+import User from "../models/User.js";
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.get("/", protect, admin, async (req, res) => {
     const publishedActivities = await Activity.countDocuments({ status: "PUBLISHED" });
     const totalStaff = await User.countDocuments({ role: "STAFF" });
 
-    // Activities by month for a chart (last 6 months)
+    // Activities by month for the last 6 months
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 

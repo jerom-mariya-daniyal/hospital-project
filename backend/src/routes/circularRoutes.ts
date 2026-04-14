@@ -1,8 +1,8 @@
 import express from "express";
-import { protect, admin } from "../middleware/authMiddleware";
-import Circular from "../models/Circular";
-import User from "../models/User";
-import { sendCircularNotification } from "../services/mailer";
+import { protect, admin } from "../middleware/authMiddleware.js";
+import Circular from "../models/Circular.js";
+import User from "../models/User.js";
+import { sendCircularNotification } from "../services/mailer.js";
 
 const router = express.Router();
 
@@ -23,10 +23,10 @@ router.post("/", protect, admin, async (req, res) => {
     const saved = await circular.save();
     await saved.populate("author", "name role");
 
-    // ── Fire-and-forget: email eligible recipients ──
+    // Fire-and-forget: email eligible recipients
     (async () => {
       try {
-        const recip = saved.recipients; // "ALL" | "STAFF" | "ADMIN"
+        const recip = saved.recipients;
         const roleFilter =
           recip === "ALL"   ? { role: { $in: ["STAFF", "ADMIN"] } } :
           recip === "STAFF" ? { role: "STAFF" } :
@@ -54,9 +54,10 @@ router.post("/", protect, admin, async (req, res) => {
 router.get("/", protect, async (req, res) => {
   try {
     const userRole = (req as any).user.role;
-    const roleFilter = userRole === "ADMIN"
-      ? { recipients: { $in: ["ALL", "ADMIN"] } }
-      : { recipients: { $in: ["ALL", "STAFF"] } };
+    const roleFilter =
+      userRole === "ADMIN"
+        ? { recipients: { $in: ["ALL", "ADMIN"] } }
+        : { recipients: { $in: ["ALL", "STAFF"] } };
 
     const circulars = await Circular.find(roleFilter)
       .populate("author", "name role")
@@ -79,7 +80,8 @@ router.get("/:id", protect, async (req, res) => {
       .populate("followUps.author", "name role")
       .populate("viewLog.user", "name role");
     if (!circular) {
-      return res.status(404).json({ message: "Circular not found" });
+      res.status(404).json({ message: "Circular not found" });
+      return;
     }
     res.json(circular);
   } catch (error) {
@@ -95,7 +97,8 @@ router.post("/:id/followup", protect, async (req, res) => {
     const { message } = req.body;
     const circular = await Circular.findById(req.params.id);
     if (!circular) {
-      return res.status(404).json({ message: "Circular not found" });
+      res.status(404).json({ message: "Circular not found" });
+      return;
     }
     circular.followUps.push({
       message,
@@ -117,7 +120,8 @@ router.put("/:id/read", protect, async (req, res) => {
     const userId = (req as any).user._id;
     const circular = await Circular.findById(req.params.id);
     if (!circular) {
-      return res.status(404).json({ message: "Circular not found" });
+      res.status(404).json({ message: "Circular not found" });
+      return;
     }
 
     const alreadyRead = circular.readBy.some(
@@ -147,7 +151,8 @@ router.get("/:id/readers", protect, async (req, res) => {
       .populate("viewLog.user", "name email role")
       .select("viewLog readBy author title");
     if (!circular) {
-      return res.status(404).json({ message: "Circular not found" });
+      res.status(404).json({ message: "Circular not found" });
+      return;
     }
     res.json(circular.viewLog);
   } catch (error) {

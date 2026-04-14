@@ -50,8 +50,8 @@ export default function PortfolioGrid() {
     try {
       const url =
         tag === "All"
-          ? "http://localhost:5001/api/activities"
-          : `http://localhost:5001/api/activities?tag=${tag}`;
+          ? `${process.env.NEXT_PUBLIC_API_URL}/api/activities`
+          : `${process.env.NEXT_PUBLIC_API_URL}/api/activities?tag=${tag}`;
       const res = await fetch(url, { cache: "no-store" });
       if (!res.ok) throw new Error();
       const data = await res.json();

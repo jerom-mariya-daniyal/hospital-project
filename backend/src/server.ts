@@ -2,12 +2,12 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
-import connectDB from "./config/db";
-import authRoutes from "./routes/authRoutes";
-import activityRoutes from "./routes/activityRoutes";
-import uploadRoutes from "./routes/uploadRoutes";
-import analyticsRoutes from "./routes/analyticsRoutes";
-import circularRoutes from "./routes/circularRoutes";
+import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import activityRoutes from "./routes/activityRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
+import circularRoutes from "./routes/circularRoutes.js";
 
 // Load env vars
 dotenv.config();
@@ -26,14 +26,24 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://hospital-project-bnk2.vercel.app",
+      "https://hospital-project-z7xx.vercel.app",
+      "http://localhost:3000",
+      "http://localhost:5173",
+    ],
+    credentials: true,
+  })
+);
 
-// Basic Route
+// Health-check route
 app.get("/", (req, res) => {
   res.send("Vet-Hub API is running...");
 });
 
-// Setup API Routes
+// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/activities", activityRoutes);
 app.use("/api/upload", uploadRoutes);
