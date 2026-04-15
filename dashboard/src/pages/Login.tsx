@@ -20,8 +20,8 @@ export default function Login() {
       localStorage.setItem("role", data.role);
       window.dispatchEvent(new Event("storage"));
       navigate(`/dashboard/${data.role.toLowerCase()}`);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Login failed. Please check your credentials.");
+    } catch (err: unknown) {
+      setError((err as { response?: { data?: { message?: string } } }).response?.data?.message || "Login failed. Please check your credentials.");
     } finally {
       setLoading(false);
     }

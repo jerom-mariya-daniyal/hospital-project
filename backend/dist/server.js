@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cors({
     origin: [
         "https://hospital-project-bnk2.vercel.app",
-        "https://hospital-project-z7xx.vercel.app",
+        "https://hospital-project-4.onrender.com",
         "http://localhost:3000",
         "http://localhost:5173",
     ],

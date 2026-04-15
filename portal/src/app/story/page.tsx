@@ -287,12 +287,12 @@ export default function OurStoryPage() {
               <span className="text-xs font-black text-blue-700 uppercase tracking-widest">Our Vision</span>
             </div>
             <blockquote className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-[1.2] mb-8">
-              "A Thanjavur where every animal is{" "}
+              &quot;A Thanjavur where every animal is{" "}
               <span className="text-blue-600">healthy</span>,
               every farmer is{" "}
               <span className="text-emerald-600">supported</span>,
               and every field officer is{" "}
-              <span className="text-amber-600">proud</span>."
+              <span className="text-amber-600">proud</span>.&quot;
             </blockquote>
             <p className="text-slate-400 font-bold tracking-widest text-sm uppercase">
               — Thanjavur Veterinary Circle, Mission Statement

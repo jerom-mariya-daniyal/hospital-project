@@ -53,8 +53,8 @@ export default function AdminDashboard() {
       });
       setActivities(data);
       setFiltered(data);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to load pending activities.");
+    } catch (err: unknown) {
+      setError((err as { response?: { data?: { message?: string } } }).response?.data?.message || "Failed to load pending activities.");
     } finally {
       setLoading(false);
     }
@@ -79,8 +79,8 @@ export default function AdminDashboard() {
       const updated = activities.filter((a) => a._id !== id);
       setActivities(updated);
       setFiltered(activeTag === "All" ? updated : updated.filter((a) => a.tag === activeTag));
-    } catch (err: any) {
-      alert("Failed to publish activity: " + err.response?.data?.message);
+    } catch (err: unknown) {
+      alert("Failed to publish activity: " + (err as { response?: { data?: { message?: string } } }).response?.data?.message);
     } finally {
       setPublishingId(null);
     }

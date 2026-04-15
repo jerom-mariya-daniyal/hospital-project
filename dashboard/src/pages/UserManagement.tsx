@@ -58,8 +58,8 @@ export default function UserManagement() {
       setShowModal(false);
       setName(""); setEmail(""); setPassword("");
       fetchUsers();
-    } catch (err: any) {
-      alert(err.response?.data?.message || "Failed to create user.");
+    } catch (err: unknown) {
+      alert((err as { response?: { data?: { message?: string } } }).response?.data?.message || "Failed to create user.");
     } finally {
       setCreating(false);
     }

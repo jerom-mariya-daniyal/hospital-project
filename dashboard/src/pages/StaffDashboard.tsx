@@ -59,8 +59,8 @@ export default function StaffDashboard() {
       setDescription("");
       setTag("General");
       setImageFiles([]);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to submit activity. Please try again.");
+    } catch (err: unknown) {
+      setError((err as { response?: { data?: { message?: string } } }).response?.data?.message || "Failed to submit activity. Please try again.");
     } finally {
       setLoading(false);
     }

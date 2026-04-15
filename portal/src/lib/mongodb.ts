@@ -8,10 +8,12 @@ if (!MONGODB_URI) {
   );
 }
 
-let cached = (global as any).mongoose;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let cached = (global as { mongoose?: any }).mongoose;
 
 if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  cached = (global as { mongoose?: any }).mongoose = { conn: null, promise: null };
 }
 
 async function dbConnect() {

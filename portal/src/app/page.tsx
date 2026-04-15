@@ -5,12 +5,10 @@ import {
   ArrowDown,
   ShieldCheck,
   Zap,
-  Globe,
   Stethoscope,
   ClipboardCheck,
   Megaphone,
   Calendar,
-  User,
 } from "lucide-react";
 import PortfolioGrid from "./components/PortfolioGrid";
 import Link from "next/link";
@@ -147,10 +145,10 @@ export default async function Home() {
                 built for the herd.
               </h2>
               <p className="text-base sm:text-lg text-slate-500 leading-relaxed font-medium mb-6">
-                Thanjavur Circle was established to bring systematic, transparent veterinary care to one of India's most vital agricultural regions. We believe every animal deserves documented, accountable healthcare — and every community deserves to see exactly where its resources go.
+                Thanjavur Circle was established to bring systematic, transparent veterinary care to one of India&apos;s most vital agricultural regions. We believe every animal deserves documented, accountable healthcare — and every community deserves to see exactly where its resources go.
               </p>
               <p className="text-base sm:text-lg text-slate-500 leading-relaxed font-medium mb-8">
-                This portal is our open ledger. Every vaccination drive, every emergency response, every routine inspection is recorded here — not for us, but for you. Because trust isn't claimed, it's shown.
+                This portal is our open ledger. Every vaccination drive, every emergency response, every routine inspection is recorded here — not for us, but for you. Because trust isn&apos;t claimed, it&apos;s shown.
               </p>
               <div className="flex items-center gap-6 pt-4 border-t border-slate-100">
                 <div>
@@ -254,7 +252,7 @@ export default async function Home() {
       ═══════════════════════════════════════════ */}
       <section className="py-24 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto">
-          <p className="text-slate-200 text-7xl sm:text-8xl lg:text-9xl font-black leading-none select-none mb-8">"</p>
+          <p className="text-slate-200 text-7xl sm:text-8xl lg:text-9xl font-black leading-none select-none mb-8">&quot;</p>
           <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-snug -mt-16 sm:-mt-20">
             The measure of a society is found in how it treats its weakest and most helpless members.
           </blockquote>

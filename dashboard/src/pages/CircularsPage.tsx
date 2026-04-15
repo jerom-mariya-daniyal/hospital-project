@@ -276,7 +276,7 @@ export default function CircularsPage({ role }: { role: string | null }) {
     if (selected) {
       chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [selected?.followUps.length]);
+  }, [selected, selected?.followUps.length]);
 
   const openCircular = async (c: Circular) => {
     try {
@@ -320,8 +320,8 @@ export default function CircularsPage({ role }: { role: string | null }) {
       setCirculars(prev => [data, ...prev]);
       setForm({ title: "", body: "", priority: "Normal", recipients: "ALL" });
       setShowCreate(false);
-    } catch (err: any) {
-      setCreateError(err.response?.data?.message || "Failed to create circular.");
+    } catch (err: unknown) {
+      setCreateError((err as { response?: { data?: { message?: string } } }).response?.data?.message || "Failed to create circular.");
     } finally { setCreating(false); }
   };
 
