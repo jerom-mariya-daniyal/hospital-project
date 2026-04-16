@@ -26,17 +26,37 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+const allowedOrigins = [
+  "https://hospital-project-bice.vercel.app", // Explicitly added the new domain
+  "https://hospital-project-bnk2.vercel.app", // Kept previous domains for safety
+  "https://hospital-project-4.onrender.com",
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: [
-      "https://hospital-project-bnk2.vercel.app",
-      "https://hospital-project-4.onrender.com",
-      "http://localhost:3000",
-      "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept"
     ],
     credentials: true,
+    optionsSuccessStatus: 204,
   })
 );
+
+// Explicitly handle pre-flight OPTIONS requests for all routes
+app.options("*", cors());
 
 // Health-check route
 app.get("/", (req, res) => {
