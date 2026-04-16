@@ -21,15 +21,34 @@ cloudinary.config({
 const app = express();
 // Middleware
 app.use(express.json());
-app.use(cors({
-    origin: [
-        "https://hospital-project-bnk2.vercel.app",
-        "https://hospital-project-4.onrender.com",
-        "http://localhost:3000",
-        "http://localhost:5173",
+const allowedOrigins = [
+    "https://hospital-project-bice.vercel.app", // Explicitly added the new domain
+    "https://hospital-project-bnk2.vercel.app", // Kept previous domains for safety
+    "https://hospital-project-4.onrender.com",
+    "http://localhost:3000",
+    "http://localhost:5173",
+];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "Accept"
     ],
     credentials: true,
-}));
+    optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 // Health-check route
 app.get("/", (req, res) => {
     res.send("Vet-Hub API is running...");
